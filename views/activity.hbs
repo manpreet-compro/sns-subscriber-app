@@ -1,0 +1,28 @@
+<ul>
+    {{#each s3Objects}}
+        <li onclick="getValue('{{this.Key}}')">{{this.Key}}</li>
+    {{/each}}
+</ul>
+<div>
+    <pre id="keyValue"></pre>
+</div>
+<script>
+    function getValue(s3Key) {
+        console.log(s3Key);
+        $.ajax({
+            type        : 'GET',
+            url         : `/getKeyValue?key=${s3Key}`,
+            success     : succesHandler,
+            error       : errorHandler
+        })
+    }
+
+    function succesHandler(res) {
+        console.log(res);
+        $('#keyValue').html(JSON.stringify(res, null, 2));
+    }
+
+    function errorHandler(err) {
+        console.log("Error");
+    }
+</script>
