@@ -32,7 +32,7 @@ app.post('/sns', (req, res) => {
                     // return res.send(`Could not confirm subscription. Error: ${err}`);
                 });
         }
-        else if(req.headers['x-amz-sns-message-type'] === 'notification') {
+        else if(req.headers['x-amz-sns-message-type'] === 'Notification') {
             console.log(`subject: ${payload.subject}, message: ${payload.message}`);
             return res.json({
                 subject: payload.subject,
