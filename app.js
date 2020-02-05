@@ -10,13 +10,16 @@ app.post('/sns', (req, res) => {
         const subscriptionConfirmUrl = req.body.SubscribeURL;
         rp({ uri: subscriptionConfirmUrl, method: 'GET' })
             .then((response) => {
-                return res.send(`Subscription Confirmed. Response: ${response}`);
+                console.log(`Subscription Confirmed. Response: ${response}`);
+                // return res.send(`Subscription Confirmed. Response: ${response}`);
             })
             .catch((err) => {
-                return res.send(`Could not confirm subscription. Error: ${err}`);
+                console.log(`Could not confirm subscription. Error: ${err}`);
+                // return res.send(`Could not confirm subscription. Error: ${err}`);
             });
     }
     else if(req.headers['x-amz-sns-message-type'] === 'notification') {
+        console.log(`subject: ${req.body.subject}, message: ${req.body.message}`);
         return res.json({
             subject: req.body.subject,
             message: req.body.message
