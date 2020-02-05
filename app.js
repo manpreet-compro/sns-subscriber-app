@@ -6,7 +6,7 @@ const rp = require('request-promise');
 app.use(bodyParser.json({ limit: '1mb' }));
 
 app.post('/sns', (req, res) => {
-    let body;
+    let body = '';
     req.on('data', (chunk) => {
         body += chunk.toString()
       })
