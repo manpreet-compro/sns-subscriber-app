@@ -13,9 +13,11 @@ app.post('/sns', (req, res) => {
     
     req.on('end', () => {
         let payload = JSON.parse(body)
+        console.log("Headers - " + JSON.stringify(req.headers));
+        console.log("Body - " + JSON.stringify(payload));
+        
         if(req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation') {
-            console.log("Headers - " + JSON.stringify(req.headers));
-            console.log("Body - " + JSON.stringify(payload));
+
             const subscriptionConfirmUrl = payload.SubscribeURL;
             console.log("url - " + subscriptionConfirmUrl);
             const reqOptions = {
