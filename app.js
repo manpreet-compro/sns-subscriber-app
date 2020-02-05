@@ -7,39 +7,30 @@ app.use(bodyParser.json({ limit: '1mb' }));
 
 app.post('/sns', (req, res) => {
     let body = '';
+
     req.on('data', (chunk) => {
         body += chunk.toString()
       })
     
     req.on('end', () => {
-        let payload = JSON.parse(body)
-        console.log("Headers - " + JSON.stringify(req.headers));
-        console.log("Body - " + JSON.stringify(payload));
+        let payload = JSON.parse(body);
 
         if(req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation') {
-
             const subscriptionConfirmUrl = payload.SubscribeURL;
             console.log("url - " + subscriptionConfirmUrl);
-            const reqOptions = {
+            rp({
                 uri: subscriptionConfirmUrl,
                 method: 'GET'
-            };
-            rp(reqOptions)
-                .then((response) => {
-                    console.log(`Subscription Confirmed. Response: ${response}`);
-                    // return res.send(`Subscription Confirmed. Response: ${response}`);
-                })
-                .catch((err) => {
-                    console.log(`Could not confirm subscription. Error: ${err}`);
-                    // return res.send(`Could not confirm subscription. Error: ${err}`);
-                });
+            })
+            .then((response) => {
+                console.log(`Subscription Confirmed. Response: ${response}`);
+            })
+            .catch((err) => {
+                console.log(`Could not confirm subscription. Error: ${err}`);
+            });
         }
         else if(req.headers['x-amz-sns-message-type'] === 'Notification') {
             console.log(`subject: ${payload.Subject}, message: ${payload.Message}`);
-            return res.json({
-                subject: payload.Subject,
-                message: payload.Message
-            })
         }
     });
 });
