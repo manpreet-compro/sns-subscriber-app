@@ -18,10 +18,8 @@ app.post('/sns', (req, res) => {
         if(req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation') {
             const subscriptionConfirmUrl = payload.SubscribeURL;
             console.log("url - " + subscriptionConfirmUrl);
-            rp({
-                uri: subscriptionConfirmUrl,
-                method: 'GET'
-            })
+            
+            rp({ uri: subscriptionConfirmUrl, method: 'GET' })
             .then((response) => {
                 console.log(`Subscription Confirmed. Response: ${response}`);
             })
