@@ -7,6 +7,8 @@ app.use(bodyParser.json({ limit: '1mb' }));
 
 app.post('/sns', (req, res) => {
     if(req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation') {
+        console.log("Headers - " + req.headers);
+        console.log("Body - " + req.body);
         const subscriptionConfirmUrl = req.body.SubscribeURL;
         console.log("url - " + subscriptionConfirmUrl);
         const reqOptions = {
