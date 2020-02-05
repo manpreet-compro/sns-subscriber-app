@@ -15,7 +15,7 @@ app.post('/sns', (req, res) => {
         let payload = JSON.parse(body)
         console.log("Headers - " + JSON.stringify(req.headers));
         console.log("Body - " + JSON.stringify(payload));
-        
+
         if(req.headers['x-amz-sns-message-type'] === 'SubscriptionConfirmation') {
 
             const subscriptionConfirmUrl = payload.SubscribeURL;
@@ -35,10 +35,10 @@ app.post('/sns', (req, res) => {
                 });
         }
         else if(req.headers['x-amz-sns-message-type'] === 'Notification') {
-            console.log(`subject: ${payload.subject}, message: ${payload.message}`);
+            console.log(`subject: ${payload.Subject}, message: ${payload.Message}`);
             return res.json({
-                subject: payload.subject,
-                message: payload.message
+                subject: payload.Subject,
+                message: payload.Message
             })
         }
     });
